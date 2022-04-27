@@ -34,6 +34,7 @@ class DetailStoryFragment : Fragment() {
     }
 
     private fun showStory(story: StoryItem) {
+        (requireActivity() as DetailStoryActivity).supportActionBar?.title = "${story.name}'s story"
         Glide.with(binding.ivStory.context)
             .load(story.photoUrl)
             .into(binding.ivStory)

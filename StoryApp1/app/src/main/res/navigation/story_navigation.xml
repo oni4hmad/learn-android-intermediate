@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_listStoryFragment_to_detailStoryActivity"
             app:destination="@id/detailStoryActivity" />
+        <action
+            android:id="@+id/action_listStoryFragment_to_addStoryActivity"
+            app:destination="@id/addStoryActivity" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -31,4 +34,9 @@
             android:name="story"
             app:argType="com.dicoding.picodiploma.storyapp1.data.network.StoryItem" />
     </activity>
+    <activity
+        android:id="@+id/addStoryActivity"
+        android:name="com.dicoding.picodiploma.storyapp1.ui.addstory.AddStoryActivity"
+        android:label="activity_add_story"
+        tools:layout="@layout/activity_add_story" />
 </navigation>

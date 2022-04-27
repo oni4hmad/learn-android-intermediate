@@ -24,6 +24,10 @@ class StoryActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.add_story -> {
+                Navigation.findNavController(this, R.id.nav_host_story).navigate(R.id.action_listStoryFragment_to_addStoryActivity)
+                true
+            }
             R.id.logout -> {
                 SessionPreference(this).clearSession()
                 Navigation.findNavController(this, R.id.nav_host_story).navigate(R.id.action_listStoryFragment_to_mainActivity)
@@ -33,5 +37,4 @@ class StoryActivity : AppCompatActivity() {
             else -> true
         }
     }
-
 }
