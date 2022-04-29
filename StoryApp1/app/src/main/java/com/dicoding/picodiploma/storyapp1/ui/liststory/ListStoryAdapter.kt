@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.storyapp1.ui.liststory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.storyapp1.data.network.StoryItem
@@ -21,22 +22,26 @@ class ListStoryAdapter(private val listStory: List<StoryItem>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val story = listStory[position]
-
-        Glide.with(holder.binding.imgItemStory.context)
-            .load(story.photoUrl)
-            .into(holder.binding.imgItemStory)
-
-        holder.binding.tvItemName.text = story.name
-
-        holder.binding.imgItemStory.setOnClickListener { onItemClickCallback.onItemClicked(listStory[holder.adapterPosition]) }
+        holder.bind(listStory[position])
     }
 
     override fun getItemCount(): Int = listStory.size
 
-    inner class ListViewHolder(var binding: ItemRowStoryBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ListViewHolder(var binding: ItemRowStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(story: StoryItem) {
+            binding.imgItemStory.transitionName = story.photoUrl
+
+            Glide.with(binding.imgItemStory.context)
+                .load(story.photoUrl)
+                .into(binding.imgItemStory)
+
+            binding.tvItemName.text = story.name
+
+            binding.cvItem.setOnClickListener { onItemClickCallback.onItemClicked(story, binding.imgItemStory) }
+        }
+    }
 
     interface OnItemClickCallback {
-        fun onItemClicked(story: StoryItem)
+        fun onItemClicked(story: StoryItem, binding: ImageView)
     }
 }

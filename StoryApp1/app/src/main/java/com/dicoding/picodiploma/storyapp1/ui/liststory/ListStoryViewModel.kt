@@ -30,14 +30,14 @@ class ListStoryViewModel(private val token: String) : ViewModel() {
     private val _listStory = MutableLiveData<List<StoryItem>>()
     val listStory: LiveData<List<StoryItem>> = _listStory
 
-    private val _toastText = MutableLiveData<Event<String>>()
-    val toastText: LiveData<Event<String>> = _toastText
+    private val _error = MutableLiveData<Error>()
+    val error: LiveData<Error> = _error
 
     init {
         getStory(token, page = 1, size = 10)
     }
 
-    fun getStory(token: String, page: Int, size: Int = 10) {
+    fun getStory(token: String, page: Int = 1, size: Int = 10) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getListStory(token, page, size)
         client.enqueue(object : Callback<StoryResponse> {
@@ -49,6 +49,11 @@ class ListStoryViewModel(private val token: String) : ViewModel() {
                 if (response.isSuccessful) {
                     response.body()?.let { storyResponse ->
                         storyResponse.listStory?.let {
+                            if (it.count() <= 0) {
+                                _error.value = Error(true, "No data to display")
+                                return
+                            }
+                            _error.value = Error(false)
                             _listStory.value = it
                         }
                     }
@@ -57,17 +62,22 @@ class ListStoryViewModel(private val token: String) : ViewModel() {
                     Log.e(TAG, "onFailure x: ${response.message()}")
                     response.errorBody()?.let {
                         val jObjError = JSONObject(it.string())
-                        _toastText.value = Event(jObjError.getString("message"))
+                        _error.value = Error(true, jObjError.getString("message"))
                     } ?: let {
-                        _toastText.value = Event(response.message())
+                        _error.value = Error(true, response.message())
                     }
                 }
             }
             override fun onFailure(call: Call<StoryResponse>, t: Throwable) {
                 _isLoading.value = false
-                _toastText.value = Event(t.message.toString())
+                _error.value = Error(true, t.message.toString())
                 Log.e(TAG, "onFailure y: ${t.message}")
             }
         })
     }
+
+    inner class Error(
+        val isError: Boolean,
+        val errorMsg: String? = null
+    )
 }

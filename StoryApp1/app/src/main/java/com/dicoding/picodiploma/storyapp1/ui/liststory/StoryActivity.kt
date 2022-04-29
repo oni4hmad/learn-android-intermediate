@@ -14,6 +14,7 @@ class StoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_story)
+        findNavController(R.id.nav_host_story).setGraph(R.navigation.story_navigation, intent.extras)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

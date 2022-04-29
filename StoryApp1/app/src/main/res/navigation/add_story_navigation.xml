@@ -9,5 +9,24 @@
         android:id="@+id/addStoryFragment"
         android:name="com.dicoding.picodiploma.storyapp1.ui.addstory.AddStoryFragment"
         android:label="fragment_add_story"
-        tools:layout="@layout/fragment_add_story" />
+        tools:layout="@layout/fragment_add_story" >
+        <action
+            android:id="@+id/action_addStoryFragment_to_storyActivity"
+            app:destination="@id/storyActivity" >
+            <argument
+                android:name="toastText"
+                android:defaultValue="@null" />
+        </action>
+    </fragment>
+    <activity
+        android:id="@+id/storyActivity"
+        android:name="com.dicoding.picodiploma.storyapp1.ui.liststory.StoryActivity"
+        android:label="activity_story"
+        tools:layout="@layout/activity_story" >
+        <argument
+            android:name="toastText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </activity>
 </navigation>

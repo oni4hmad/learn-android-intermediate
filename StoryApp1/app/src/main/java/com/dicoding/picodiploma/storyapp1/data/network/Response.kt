@@ -75,3 +75,11 @@ data class StoryItem(
 	val lon: Double? = null
 
 ) : Parcelable
+
+data class FileUploadResponse(
+	@field:SerializedName("error")
+	val error: Boolean,
+
+	@field:SerializedName("message")
+	val message: String
+)
