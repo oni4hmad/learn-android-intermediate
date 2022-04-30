@@ -20,7 +20,7 @@ class StoryActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.story_menu, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -35,7 +35,7 @@ class StoryActivity : AppCompatActivity() {
                 finish()
                 true
             }
-            else -> true
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

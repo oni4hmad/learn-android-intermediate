@@ -19,16 +19,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.dicoding.picodiploma.storyapp1.data.preferences.SessionPreference
 import com.dicoding.picodiploma.storyapp1.databinding.FragmentAddStoryBinding
-import com.dicoding.picodiploma.storyapp1.ui.detailstory.DetailStoryActivity
-import com.dicoding.picodiploma.storyapp1.ui.liststory.ListStoryViewModel
-import com.dicoding.picodiploma.storyapp1.ui.liststory.ListStoryViewModelFactory
 import com.dicoding.picodiploma.storyapp1.utils.createCustomTempFile
 import com.dicoding.picodiploma.storyapp1.utils.reduceFileImage
 import com.dicoding.picodiploma.storyapp1.utils.rotateBitmap
@@ -41,9 +37,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 

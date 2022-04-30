@@ -1,10 +1,12 @@
 package com.dicoding.picodiploma.storyapp1.ui.liststory
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.dicoding.picodiploma.storyapp1.data.network.StoryItem
 import com.dicoding.picodiploma.storyapp1.databinding.ItemRowStoryBinding
 
@@ -29,19 +31,23 @@ class ListStoryAdapter(private val listStory: List<StoryItem>) : RecyclerView.Ad
 
     inner class ListViewHolder(var binding: ItemRowStoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(story: StoryItem) {
+
+            binding.pbItemStory.visibility = View.GONE
+
             binding.imgItemStory.transitionName = story.photoUrl
 
             Glide.with(binding.imgItemStory.context)
                 .load(story.photoUrl)
+                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
                 .into(binding.imgItemStory)
 
             binding.tvItemName.text = story.name
 
-            binding.cvItem.setOnClickListener { onItemClickCallback.onItemClicked(story, binding.imgItemStory) }
+            binding.cvItem.setOnClickListener { onItemClickCallback.onItemClicked(story, binding) }
         }
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(story: StoryItem, binding: ImageView)
+        fun onItemClicked(story: StoryItem, binding: ItemRowStoryBinding)
     }
 }

@@ -1,5 +1,7 @@
 package com.dicoding.picodiploma.storyapp1.ui.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,6 +68,33 @@ class LoginFragment : Fragment() {
         binding.tvSignUp.setOnClickListener (
             Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_registerFragment)
         )
+
+        playAnimation()
+    }
+
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.tvTitle, View.TRANSLATION_X, -15f, 15f).apply {
+            duration = 3000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val tvEmail = ObjectAnimator.ofFloat(binding.tvEmail, View.ALPHA, 1f).setDuration(100)
+        val edtEmail = ObjectAnimator.ofFloat(binding.edtEmail, View.ALPHA, 1f).setDuration(100)
+        val tvPassword = ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(100)
+        val edtPassword = ObjectAnimator.ofFloat(binding.edtPassword, View.ALPHA, 1f).setDuration(100)
+        val btnLogin = ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1f).setDuration(100)
+        val tvRegister = ObjectAnimator.ofFloat(binding.tvRegister, View.ALPHA, 1f).setDuration(100)
+        val tvSignUp = ObjectAnimator.ofFloat(binding.tvSignUp, View.ALPHA, 1f).setDuration(100)
+
+        val together = AnimatorSet().apply {
+            playTogether(tvRegister, tvSignUp)
+        }
+
+        AnimatorSet().apply {
+            playSequentially(tvEmail, edtEmail, tvPassword, edtPassword, btnLogin, together)
+            start()
+        }
     }
 
     private fun tryLogin() {

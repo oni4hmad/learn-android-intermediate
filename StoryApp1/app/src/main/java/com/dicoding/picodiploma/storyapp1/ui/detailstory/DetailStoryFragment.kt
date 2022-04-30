@@ -1,15 +1,23 @@
 package com.dicoding.picodiploma.storyapp1.ui.detailstory
 
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.dicoding.picodiploma.storyapp1.R
 import com.dicoding.picodiploma.storyapp1.data.network.StoryItem
 import com.dicoding.picodiploma.storyapp1.databinding.FragmentDetailStoryBinding
+import com.dicoding.picodiploma.storyapp1.ui.liststory.StoryActivity
 
 class DetailStoryFragment : Fragment() {
 
@@ -17,7 +25,10 @@ class DetailStoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = context?.let { TransitionInflater.from(it).inflateTransition(android.R.transition.move) }
+        postponeEnterTransition()
+        sharedElementEnterTransition = TransitionInflater.from(context as Context)
+            .inflateTransition(android.R.transition.move)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -31,18 +42,62 @@ class DetailStoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        DetailStoryActivityArgs.fromBundle(arguments as Bundle).story.let {
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        DetailStoryFragmentArgs.fromBundle(arguments as Bundle).story.let {
             showStory(it)
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                findNavController().navigateUp()
+                true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun showStory(story: StoryItem) {
-        (requireActivity() as DetailStoryActivity).supportActionBar?.title = "${story.name}'s story"
+        (requireActivity() as StoryActivity).supportActionBar?.title = "${story.name}'s story"
+
+        binding.ivStory.transitionName = story.photoUrl
+
         Glide.with(binding.ivStory.context)
             .load(story.photoUrl)
-            .into(binding.ivStory)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.ivErrorImg.visibility = View.VISIBLE
+                    sharedElementEnterTransition = TransitionInflater.from(context as Context)
+                        .inflateTransition(android.R.transition.no_transition)
+                    startPostponedEnterTransition()
+                    return false
+                }
 
-        binding.tvDescription.text = story.description
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    startPostponedEnterTransition()
+                    return false
+                }
+
+            })
+            .into(binding.ivStory)
     }
 
     private fun showToast(text: String) {

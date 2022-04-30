@@ -33,7 +33,7 @@ class RegisterFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         viewModel.isRegisterSuccess.observe(viewLifecycleOwner) {
-            if (it) toLogin()
+            if (it) toLogin(true)
         }
         viewModel.toastText.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { toastText ->
@@ -44,8 +44,12 @@ class RegisterFragment : Fragment() {
             showLoading(it)
         }
 
-        binding.btnRegister.setOnClickListener {
+        binding.btnSignUp.setOnClickListener {
             tryRegister()
+        }
+
+        binding.tvLogIn.setOnClickListener {
+            toLogin(false)
         }
     }
 
@@ -67,10 +71,12 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun toLogin() {
+    private fun toLogin(isRegistered: Boolean) {
         val toLoginFragment = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-        toLoginFragment.email = binding.edtEmail.text.toString()
-        toLoginFragment.password = binding.edtPassword.text.toString()
+        if (isRegistered) {
+            toLoginFragment.email = binding.edtEmail.text.toString()
+            toLoginFragment.password = binding.edtPassword.text.toString()
+        }
         view?.findNavController()?.navigate(toLoginFragment)
     }
 
@@ -79,13 +85,15 @@ class RegisterFragment : Fragment() {
             binding.edtName.isEnabled = false
             binding.edtEmail.isEnabled = false
             binding.edtPassword.isEnabled = false
-            binding.btnRegister.isEnabled = false
+            binding.btnSignUp.isEnabled = false
+            binding.tvLogIn.isEnabled = false
             binding.pbRegister.visibility = View.VISIBLE
         } else {
             binding.edtName.isEnabled = true
             binding.edtEmail.isEnabled = true
             binding.edtPassword.isEnabled = true
-            binding.btnRegister.isEnabled = true
+            binding.btnSignUp.isEnabled = true
+            binding.tvLogIn.isEnabled = true
             binding.pbRegister.visibility = View.GONE
         }
     }

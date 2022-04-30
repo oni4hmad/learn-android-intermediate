@@ -14,11 +14,11 @@
             android:id="@+id/action_listStoryFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
         <action
-            android:id="@+id/action_listStoryFragment_to_detailStoryActivity"
-            app:destination="@id/detailStoryActivity" />
-        <action
             android:id="@+id/action_listStoryFragment_to_addStoryActivity"
             app:destination="@id/addStoryActivity" />
+        <action
+            android:id="@+id/action_listStoryFragment_to_detailStoryFragment"
+            app:destination="@id/detailStoryFragment" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -26,17 +26,17 @@
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <activity
-        android:id="@+id/detailStoryActivity"
-        android:name="com.dicoding.picodiploma.storyapp1.ui.detailstory.DetailStoryActivity"
-        android:label="activity_detail_story"
-        tools:layout="@layout/activity_detail_story" >
-        <argument
-            android:name="story"
-            app:argType="com.dicoding.picodiploma.storyapp1.data.network.StoryItem" />
-    </activity>
-    <activity
         android:id="@+id/addStoryActivity"
         android:name="com.dicoding.picodiploma.storyapp1.ui.addstory.AddStoryActivity"
         android:label="activity_add_story"
         tools:layout="@layout/activity_add_story" />
+    <fragment
+        android:id="@+id/detailStoryFragment"
+        android:name="com.dicoding.picodiploma.storyapp1.ui.detailstory.DetailStoryFragment"
+        android:label="fragment_detail_story"
+        tools:layout="@layout/fragment_detail_story" >
+        <argument
+            android:name="story"
+            app:argType="com.dicoding.picodiploma.storyapp1.data.network.StoryItem" />
+    </fragment>
 </navigation>

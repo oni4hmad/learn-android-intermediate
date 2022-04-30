@@ -2,15 +2,18 @@ package com.dicoding.picodiploma.storyapp1.ui.liststory
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.picodiploma.storyapp1.R
 import com.dicoding.picodiploma.storyapp1.data.network.StoryItem
 import com.dicoding.picodiploma.storyapp1.data.preferences.SessionPreference
 import com.dicoding.picodiploma.storyapp1.databinding.FragmentListStoryBinding
@@ -21,6 +24,7 @@ class ListStoryFragment : Fragment() {
     private lateinit var binding: FragmentListStoryBinding
     private lateinit var viewModel: ListStoryViewModel
     private lateinit var session: SessionPreference
+    private var state: Parcelable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +32,22 @@ class ListStoryFragment : Fragment() {
     ): View? {
         binding = FragmentListStoryBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.rvStories.layoutManager?.onSaveInstanceState().let {
+            state = it
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        state?.let {
+            binding.rvStories.layoutManager?.onRestoreInstanceState(it)
+        }
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.app_name)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,23 +103,18 @@ class ListStoryFragment : Fragment() {
         binding.rvStories.adapter = listStoryAdapter
 
         listStoryAdapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
-            override fun onItemClicked(story: StoryItem, imgView: ImageView) {
-                showStory(story, imgView)
+            override fun onItemClicked(story: StoryItem, binding: ItemRowStoryBinding) {
+                binding.pbItemStory.visibility = View.VISIBLE
+                showStory(story, binding)
             }
         })
     }
 
-    private fun showStory(story: StoryItem, imgView: ImageView) {
+    private fun showStory(story: StoryItem, binding: ItemRowStoryBinding) {
         val extras = FragmentNavigatorExtras(
-            imgView to "imageView")
-        val toDetailStoryFragment = ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryActivity(story)
-        view?.findNavController()?.navigate(toDetailStoryFragment.actionId,
-            toDetailStoryFragment.arguments, // Bundle of args
-            null, // NavOptions
-            extras)
-
-        /*val toDetailStoryFragment = ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryActivity(story)
-        view?.findNavController()?.navigate(toDetailStoryFragment)*/
+            binding.imgItemStory to story.photoUrl)
+        val toDetailStoryFragment = ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryFragment(story)
+        view?.findNavController()?.navigate(toDetailStoryFragment, extras)
     }
 
     private fun showLoading(isLoading: Boolean) {
