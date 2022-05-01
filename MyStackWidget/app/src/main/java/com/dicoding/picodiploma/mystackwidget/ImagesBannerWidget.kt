@@ -19,10 +19,11 @@ class ImagesBannerWidget : AppWidgetProvider() {
         private const val TOAST_ACTION = "com.dicoding.picodiploma.TOAST_ACTION"
         const val EXTRA_ITEM = "com.dicoding.picodiploma.EXTRA_ITEM"
 
-        //pindahkan fungsi ini ke companion object, karena kita akan memanggil fungsi ini dari luar kelas
+        /* pindahkan fungsi ini ke companion object, karena kita akan memanggil fungsi ini dari luar kelas */
         private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val intent = Intent(context, StackWidgetService::class.java)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            /*intent.putParcelableArrayListExtra()*/
             intent.data = intent.toUri(Intent.URI_INTENT_SCHEME).toUri()
 
             val views = RemoteViews(context.packageName, R.layout.image_banner_widget)
@@ -67,6 +68,7 @@ class ImagesBannerWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         // Enter relevant functionality for when the first widget is created
+
     }
 
     override fun onDisabled(context: Context) {

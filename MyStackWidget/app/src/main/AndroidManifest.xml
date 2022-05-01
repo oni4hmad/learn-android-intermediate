@@ -8,6 +8,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyStackWidget">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- StackWidget Provider -->
         <receiver
             android:name=".ImagesBannerWidget"
             android:exported="false">
@@ -20,17 +32,7 @@
                 android:resource="@xml/image_banner_widget_info" />
         </receiver>
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
+        <!-- StackWidget Service -->
         <service
             android:name="com.dicoding.picodiploma.mystackwidget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
