@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dicoding.picodiploma.storyapp1">
+
     <!-- internet permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- camera permission -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- camera permission -->
     <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- read write external storage permission -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- read write external storage permission -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="https" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -20,13 +29,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StoryApp1">
+
         <activity
             android:name=".ui.addstory.AddStoryActivity"
             android:exported="false" />
         <activity
             android:name=".ui.liststory.StoryActivity"
-            android:label="@string/app_name"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/app_name" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -44,17 +54,26 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
-    </application>
+        <!-- StackWidget Provider -->
+        <receiver
+            android:name=".widget.ImagesBannerWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" />
-        </intent>
-    </queries>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/images_banner_widget_info" />
+        </receiver>
+
+        <!-- StackWidget Service -->
+        <service
+            android:name="com.dicoding.picodiploma.storyapp1.widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+    </application>
 
 </manifest>

@@ -14,7 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "LoginViewModel"

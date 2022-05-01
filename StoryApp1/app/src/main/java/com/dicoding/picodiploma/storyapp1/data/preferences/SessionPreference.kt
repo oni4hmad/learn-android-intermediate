@@ -37,11 +37,10 @@ internal class SessionPreference(context: Context) {
         }
     }
 
-    fun getAuthToken(): String? {
-        return getSession()?.token?.let {
+    fun getAuthToken(): String? =
+        getSession()?.token?.let {
             "Bearer $it"
         }
-    }
 
     fun clearSession() {
         val nullSession = SessionModel()
