@@ -3,16 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/drawable/app_widget_background.xml" value="0.1" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/drawable/border_background.xml" value="0.1" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.105" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/drawable/ic_baseline_error_outline_24.xml" value="0.1" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/drawable/ic_baseline_language_24.xml" value="0.105" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/activity_add_story.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/activity_detail_story.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/activity_list_story.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/activity_main.xml" value="0.22780797101449277" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/activity_story.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_add_story.xml" value="0.25" />
-        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_detail_story.xml" value="0.15" />
-        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_list_story.xml" value="0.33" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_add_story.xml" value="0.14" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_detail_story.xml" value="0.25" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_list_story.xml" value="0.2750865051903114" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_login.xml" value="0.18" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/fragment_register.xml" value="0.22" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/StoryApp1/app/src/main/res/layout/images_banner_widget.xml" value="0.22830269345874304" />

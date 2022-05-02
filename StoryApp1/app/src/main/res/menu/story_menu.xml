@@ -4,10 +4,15 @@
     <item
         android:id="@+id/add_story"
         android:icon="@drawable/ic_baseline_add_box_24"
-        android:title="Add Story"
-        app:showAsAction="always" />
+        android:title="@string/add_story"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/change_language"
+        android:icon="@drawable/ic_baseline_language_24"
+        android:title="@string/change_language"
+        app:showAsAction="ifRoom" />
     <group android:menuCategory="container">
         <item android:id="@+id/logout"
-            android:title="Logout" />
+            android:title="@string/logout" />
     </group>
 </menu>

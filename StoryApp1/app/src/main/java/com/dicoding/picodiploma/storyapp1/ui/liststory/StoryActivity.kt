@@ -1,7 +1,9 @@
 package com.dicoding.picodiploma.storyapp1.ui.liststory
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.Navigation
@@ -33,6 +35,10 @@ class StoryActivity : AppCompatActivity() {
                 SessionPreference(this).clearSession()
                 Navigation.findNavController(this, R.id.nav_host_story).navigate(R.id.action_listStoryFragment_to_mainActivity)
                 finish()
+                true
+            }
+            R.id.change_language -> {
+                startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 true
             }
             else -> super.onOptionsItemSelected(item)

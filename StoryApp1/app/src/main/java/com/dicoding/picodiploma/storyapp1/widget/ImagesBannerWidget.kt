@@ -63,7 +63,7 @@ class ImagesBannerWidget : AppWidgetProvider() {
             when (intent.action) {
                 TOAST_ACTION -> {
                     val viewIndex = intent.getIntExtra(EXTRA_ITEM, 0)
-                    Toast.makeText(context, "Touched view $viewIndex", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.touched_view, viewIndex), Toast.LENGTH_SHORT).show()
                 }
                 UPDATE_ACTION -> {
                     val appWidgetId = intent.getSerializableExtra(AppWidgetManager.EXTRA_APPWIDGET_ID) as Int

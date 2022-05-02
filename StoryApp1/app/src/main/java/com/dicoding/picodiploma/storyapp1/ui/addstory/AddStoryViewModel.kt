@@ -1,6 +1,8 @@
+@file:Suppress("unused")
+
 package com.dicoding.picodiploma.storyapp1.ui.addstory
 
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,11 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.picodiploma.storyapp1.data.network.ApiConfig
 import com.dicoding.picodiploma.storyapp1.data.network.FileUploadResponse
 import com.dicoding.picodiploma.storyapp1.ui.Event
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import java.io.File
 
 class AddStoryViewModelFactory(private val token: String): ViewModelProvider.NewInstanceFactory() {
@@ -53,11 +55,13 @@ class AddStoryViewModel(private val token: String) : ViewModel() {
                     }
                 } else {
                     _toastText.value = Event(response.message())
+                    Log.e(TAG, "onFailure x: ${response.message()}")
                 }
             }
             override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
                 _isLoading.value = false
-                _toastText.value = Event("Gagal instance Retrofit")
+                _toastText.value = Event(t.message.toString())
+                Log.e(TAG, "onFailure y: ${t.message}")
             }
         })
 

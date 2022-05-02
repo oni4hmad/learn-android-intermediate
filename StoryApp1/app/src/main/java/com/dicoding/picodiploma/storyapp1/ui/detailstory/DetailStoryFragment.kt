@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -58,16 +57,17 @@ class DetailStoryFragment : Fragment() {
         when (item.itemId) {
             android.R.id.home -> {
                 findNavController().navigateUp()
-                true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun showStory(story: StoryItem) {
-        (requireActivity() as StoryActivity).supportActionBar?.title = "${story.name}'s story"
+        (requireActivity() as StoryActivity).supportActionBar?.title = getString(R.string.owner_story, story.name)
 
         binding.ivStory.transitionName = story.photoUrl
+
+        binding.tvDescription.text = story.description
 
         Glide.with(binding.ivStory.context)
             .load(story.photoUrl)
@@ -98,10 +98,6 @@ class DetailStoryFragment : Fragment() {
 
             })
             .into(binding.ivStory)
-    }
-
-    private fun showToast(text: String) {
-        Toast.makeText(view?.context, text, Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.liststory.ListStoryFragment">
@@ -12,7 +11,7 @@
         android:id="@+id/btn_load"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="load"
+        android:text="@string/load"
         app:layout_constraintBottom_toBottomOf="@+id/edt_story_qty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -47,7 +46,6 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:id="@+id/pb_list_story"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +63,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/tv_placeholder"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btn_retry"
         app:layout_constraintEnd_toEndOf="@+id/srl_stories"
@@ -79,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Retry"
+        android:text="@string/retry"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/srl_stories"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,17 +93,19 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
-        android:text="10"
+        android:text="@string/value_10"
         app:layout_constraintEnd_toStartOf="@+id/btn_load"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_plc_storyperpage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="LabelFor"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/tv_plc_storyperpage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Story per page:"
+        android:text="@string/story_per_page"
         app:layout_constraintBottom_toBottomOf="@+id/edt_story_qty"
         app:layout_constraintEnd_toStartOf="@+id/edt_story_qty"
         app:layout_constraintHorizontal_bias="0.5"

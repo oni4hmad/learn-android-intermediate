@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.dicoding.picodiploma.storyapp1.ui
 
 open class Event<out T>(private val content: T) {

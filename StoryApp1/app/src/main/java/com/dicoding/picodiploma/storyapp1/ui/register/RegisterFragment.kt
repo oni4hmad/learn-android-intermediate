@@ -7,10 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.dicoding.picodiploma.storyapp1.R
-import com.dicoding.picodiploma.storyapp1.data.preferences.SessionModel
 import com.dicoding.picodiploma.storyapp1.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -22,16 +20,15 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
         viewModel.isRegisterSuccess.observe(viewLifecycleOwner) {
             if (it) toLogin(true)
         }
@@ -62,7 +59,7 @@ class RegisterFragment : Fragment() {
         val isPasswordInvalid = binding.edtPassword.isError || password.isEmpty()
         when {
             isNameInvalid -> {
-                binding.edtName.error = "Invalid name."
+                binding.edtName.error = getString(R.string.invalid_name)
                 binding.edtName.requestFocus()
             }
             isEmailInvalid -> binding.edtEmail.requestFocus()

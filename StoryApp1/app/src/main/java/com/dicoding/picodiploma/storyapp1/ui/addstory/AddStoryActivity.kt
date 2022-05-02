@@ -10,7 +10,7 @@ class AddStoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_story)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "New Story"
+        supportActionBar?.title = getString(R.string.new_story)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import com.dicoding.picodiploma.storyapp1.R
 import com.dicoding.picodiploma.storyapp1.data.preferences.SessionPreference
 import com.dicoding.picodiploma.storyapp1.databinding.FragmentAddStoryBinding
 import com.dicoding.picodiploma.storyapp1.utils.createCustomTempFile
@@ -58,7 +59,7 @@ class AddStoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddStoryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -80,7 +81,7 @@ class AddStoryFragment : Fragment() {
         }
         viewModel.isSucceed.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { isSucceed ->
-                if (isSucceed) toStoryList("Story created successfully")
+                if (isSucceed) toStoryList(getString(R.string.story_created_successfully))
             }
         }
         viewModel.toastText.observe(viewLifecycleOwner) {
@@ -129,8 +130,8 @@ class AddStoryFragment : Fragment() {
     private fun uploadImage() {
         if (getFile != null) {
 
-            if (binding.edtDescription.text.toString().isNullOrEmpty()) {
-                binding.edtDescription.error = "Description can't' be empty"
+            if (binding.edtDescription.text.toString().isEmpty()) {
+                binding.edtDescription.error = getString(R.string.description_cant_be_empty)
                 return
             }
 
@@ -154,7 +155,7 @@ class AddStoryFragment : Fragment() {
             }
 
         } else {
-            Toast.makeText(view?.context, "Silakan masukkan berkas gambar terlebih dahulu.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(view?.context, getString(R.string.error_no_image), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -180,7 +181,7 @@ class AddStoryFragment : Fragment() {
         val intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "image/*"
-        val chooser = Intent.createChooser(intent, "Choose a Picture")
+        val chooser = Intent.createChooser(intent, getString(R.string.choose_a_picture))
         launcherIntentGallery.launch(chooser)
     }
 

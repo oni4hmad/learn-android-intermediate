@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.dicoding.picodiploma.storyapp1.utils
 
 import android.app.Application

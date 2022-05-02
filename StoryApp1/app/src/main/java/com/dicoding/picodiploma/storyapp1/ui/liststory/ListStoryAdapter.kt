@@ -29,7 +29,7 @@ class ListStoryAdapter(private val listStory: List<StoryItem>) : RecyclerView.Ad
 
     override fun getItemCount(): Int = listStory.size
 
-    inner class ListViewHolder(var binding: ItemRowStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ListViewHolder(private var binding: ItemRowStoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(story: StoryItem) {
 
             binding.pbItemStory.visibility = View.GONE

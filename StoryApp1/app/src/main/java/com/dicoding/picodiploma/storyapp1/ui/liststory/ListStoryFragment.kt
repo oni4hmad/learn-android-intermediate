@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -29,7 +28,7 @@ class ListStoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentListStoryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,8 +60,13 @@ class ListStoryFragment : Fragment() {
             showRecyclerList(stories)
         }
         viewModel.error.observe(viewLifecycleOwner) { error ->
-            if (error.isError) error.errorMsg?.let { showError(true, it) }
-            else showError(false)
+            when {
+                error.isError && error.type == ListStoryViewModel.ErrorType.NO_DATA ->
+                    showError(true, getString(R.string.no_data_to_display))
+                error.isError ->
+                    error.errorMsg?.let { showError(true, it) }
+                else -> showError(false)
+            }
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
@@ -92,7 +96,7 @@ class ListStoryFragment : Fragment() {
         if (binding.edtStoryQty.text.toString().isNotEmpty()) {
             val qty = binding.edtStoryQty.text.toString().toInt()
             viewModel.getStory(token, size = qty)
-        } else binding.edtStoryQty.error = "Can't be empty"
+        } else binding.edtStoryQty.error = getString(R.string.cant_be_empty)
     }
 
     private fun showRecyclerList(stories: List<StoryItem>) {

@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.picodiploma.storyapp1.data.network.ApiConfig
 import com.dicoding.picodiploma.storyapp1.data.network.StoryItem
 import com.dicoding.picodiploma.storyapp1.data.network.StoryResponse
-import com.dicoding.picodiploma.storyapp1.ui.Event
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +17,7 @@ class ListStoryViewModelFactory(private val token: String): ViewModelProvider.Ne
     override fun <T : ViewModel> create(modelClass: Class<T>): T = ListStoryViewModel(token) as T
 }
 
-class ListStoryViewModel(private val token: String) : ViewModel() {
+class ListStoryViewModel(token: String) : ViewModel() {
 
     companion object {
         private const val TAG = "ListStoryViewModel"
@@ -50,7 +49,7 @@ class ListStoryViewModel(private val token: String) : ViewModel() {
                     response.body()?.let { storyResponse ->
                         storyResponse.listStory?.let {
                             if (it.count() <= 0) {
-                                _error.value = Error(true, "No data to display")
+                                _error.value = Error(true, type = ErrorType.NO_DATA)
                                 return
                             }
                             _error.value = Error(false)
@@ -78,6 +77,11 @@ class ListStoryViewModel(private val token: String) : ViewModel() {
 
     inner class Error(
         val isError: Boolean,
-        val errorMsg: String? = null
+        val errorMsg: String? = null,
+        val type: ErrorType? = null
     )
+
+    enum class ErrorType {
+        NO_DATA
+    }
 }
