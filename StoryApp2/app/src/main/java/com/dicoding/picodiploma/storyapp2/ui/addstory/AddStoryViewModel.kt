@@ -2,6 +2,7 @@
 
 package com.dicoding.picodiploma.storyapp2.ui.addstory
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.picodiploma.storyapp2.data.network.ApiConfig
 import com.dicoding.picodiploma.storyapp2.data.network.FileUploadResponse
 import com.dicoding.picodiploma.storyapp2.ui.Event
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +31,9 @@ class AddStoryViewModel(private val token: String) : ViewModel() {
         private const val TAG = "AddStoryViewModel"
     }
 
+    private val _location = MutableLiveData<Location>()
+    val location: LiveData<Location> = _location
+
     private val _file = MutableLiveData<File>()
     val file: LiveData<File> = _file
 
@@ -41,8 +47,16 @@ class AddStoryViewModel(private val token: String) : ViewModel() {
     val isSucceed: LiveData<Event<Boolean>> = _isSucceed
 
     fun uploadImage(imageMultipart: MultipartBody.Part, description: RequestBody) {
-
-        val service = ApiConfig.getApiService().uploadImage(token, imageMultipart, description)
+        val params = mutableMapOf<String, RequestBody>().apply {
+            put("description", description)
+            if (_location.value != null) {
+                val lat = _location.value?.latitude.toString().toRequestBody("text/plain".toMediaType())
+                val lng = _location.value?.longitude.toString().toRequestBody("text/plain".toMediaType())
+                put("lat", lat)
+                put("lon", lng)
+            }
+        }
+        val service = ApiConfig.getApiService().uploadImage(token, imageMultipart, HashMap(params))
         service.enqueue(object : Callback<FileUploadResponse> {
             override fun onResponse(
                 call: Call<FileUploadResponse>,
@@ -70,6 +84,10 @@ class AddStoryViewModel(private val token: String) : ViewModel() {
 
     fun setFile(file: File) {
         _file.value = file
+    }
+
+    fun setLocation(location: Location) {
+        _location.value = location
     }
 
 }

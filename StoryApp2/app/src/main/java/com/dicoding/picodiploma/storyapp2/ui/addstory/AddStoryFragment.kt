@@ -1,15 +1,15 @@
 package com.dicoding.picodiploma.storyapp2.ui.addstory
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavOptions
@@ -30,6 +32,10 @@ import com.dicoding.picodiploma.storyapp2.utils.createCustomTempFile
 import com.dicoding.picodiploma.storyapp2.utils.reduceFileImage
 import com.dicoding.picodiploma.storyapp2.utils.rotateBitmap
 import com.dicoding.picodiploma.storyapp2.utils.uriToFile
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -51,6 +57,8 @@ class AddStoryFragment : Fragment() {
 
     private var getFile: File? = null
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -71,6 +79,8 @@ class AddStoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(view.context)
 
         session = SessionPreference(view.context)
         val token = session.getAuthToken() ?: ""
@@ -96,6 +106,11 @@ class AddStoryFragment : Fragment() {
                 binding.ivImgPreview.setImageBitmap(imageBmp)
             }
         }
+        viewModel.location.observe(viewLifecycleOwner) {
+            it?.let { location ->
+                showLocationTo(location)
+            }
+        }
 
         /* permission */
         if (!allPermissionsGranted()) {
@@ -108,7 +123,73 @@ class AddStoryFragment : Fragment() {
 
         binding.btnCamera.setOnClickListener { startTakePhoto() }
         binding.btnGallery.setOnClickListener { startGallery() }
+        binding.btnGetLocation.setOnClickListener {
+            binding.btnGetLocation.isEnabled = false
+            getMyLastLocation()
+        }
         binding.btnUpload.setOnClickListener { uploadImage() }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyLastLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyLastLocation()
+                }
+                else -> {
+                    // No location access granted.
+                    binding.btnGetLocation.isEnabled = true
+                    val msg = getString(R.string.cant_get_location_access)
+                    showToast(msg)
+                }
+            }
+        }
+    private fun checkPermission(permission: String): Boolean {
+        return view?.context?.let {
+            ContextCompat.checkSelfPermission(
+                it, permission
+            )
+        } == PackageManager.PERMISSION_GRANTED
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getMyLastLocation() {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.getCurrentLocation(
+                PRIORITY_HIGH_ACCURACY,
+                CancellationTokenSource().token
+            ).addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    viewModel.setLocation(location)
+                    showLocationTo(location)
+                } else {
+                    binding.btnGetLocation.isEnabled = true
+                    showToast(getString(R.string.location_not_found))
+                    showToast(getString(R.string.please_turn_on_location))
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    private fun showLocationTo(location: Location) {
+        binding.tvLatlng.text = getString(R.string.lat_lng, location.latitude.toString(), location.longitude.toString())
+        binding.btnGetLocation.isEnabled = true
     }
 
     private fun toStoryList(msg: String) {
@@ -217,6 +298,7 @@ class AddStoryFragment : Fragment() {
         if (isLoading) {
             binding.btnCamera.isEnabled = false
             binding.btnGallery.isEnabled = false
+            binding.btnGetLocation.isEnabled = false
             binding.btnUpload.isEnabled = false
             binding.edtDescription.isEnabled = false
             binding.pbAddStory.visibility = View.VISIBLE
@@ -224,6 +306,7 @@ class AddStoryFragment : Fragment() {
         else {
             binding.btnCamera.isEnabled = true
             binding.btnGallery.isEnabled = true
+            binding.btnGetLocation.isEnabled = true
             binding.btnUpload.isEnabled = true
             binding.edtDescription.isEnabled = true
             binding.pbAddStory.visibility = View.GONE

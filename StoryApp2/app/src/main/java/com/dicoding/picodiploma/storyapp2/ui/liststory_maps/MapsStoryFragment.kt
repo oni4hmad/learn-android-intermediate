@@ -125,7 +125,7 @@ class MapsStoryFragment : Fragment(), OnMapReadyCallback {
 
             val width = resources.displayMetrics.widthPixels
             val height = resources.displayMetrics.heightPixels
-            val padding = (width * 0.25).toInt() // offset from edges of the map 35% of screen
+            val padding = (width * 0.20).toInt() // offset from edges of the map 20% of screen
             val cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding)
 
             mMap.animateCamera(cu)

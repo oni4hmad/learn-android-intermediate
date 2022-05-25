@@ -35,4 +35,10 @@
     <string name="logout">Logout</string>
     <string name="map_story">Map Story</string>
     <string name="tap_to_open">Tap to open story</string>
+    <string name="get_location">Get Location</string>
+    <string name="lat_lng" translatable="false">Lat: %1$s, Lng: %2$s</string>
+    <string name="location_not_found">Location is not found.</string>
+    <string name="cant_get_location_access">No location access granted.</string>
+    <string name="lat_lng_plc" translatable="false">Lat: -, Lng: -</string>
+    <string name="please_turn_on_location">Please turn on your location.</string>
 </resources>

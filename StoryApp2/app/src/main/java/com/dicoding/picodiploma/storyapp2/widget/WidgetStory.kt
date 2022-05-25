@@ -45,9 +45,7 @@ internal object WidgetStory {
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let { storyResponse ->
-                            storyResponse.listStory.let {
-                                downloadImage(context, appWidgetId, it)
-                            }
+                            downloadImage(context, appWidgetId, storyResponse.listStory)
                         }
                     } else {
                         Log.e("WidgetStory.getStory", "onFailure x: ${response.message()}")

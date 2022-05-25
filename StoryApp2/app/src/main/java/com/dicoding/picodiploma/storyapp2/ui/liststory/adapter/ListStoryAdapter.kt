@@ -1,5 +1,6 @@
 package com.dicoding.picodiploma.storyapp2.ui.liststory.adapter
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,8 +8,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.dicoding.picodiploma.storyapp2.data.network.StoryItem
 import com.dicoding.picodiploma.storyapp2.databinding.ItemRowStoryBinding
 
@@ -42,11 +47,29 @@ class ListStoryAdapter : PagingDataAdapter<StoryItem, ListStoryAdapter.ListViewH
             Glide.with(binding.imgItemStory.context)
                 .load(story.photoUrl)
                 .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.cvItem.setOnClickListener { onItemClickCallback.onItemClicked(story, binding) }
+                        return false
+                    }
+                })
                 .into(binding.imgItemStory)
 
             binding.tvItemName.text = story.name
-
-            binding.cvItem.setOnClickListener { onItemClickCallback.onItemClicked(story, binding) }
         }
     }
 
