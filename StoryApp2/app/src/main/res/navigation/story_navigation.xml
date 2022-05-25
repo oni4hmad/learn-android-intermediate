@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_listStoryFragment_to_detailStoryFragment"
             app:destination="@id/detailStoryFragment" />
+        <action
+            android:id="@+id/action_listStoryFragment_to_mapsStoryFragment"
+            app:destination="@id/mapsStoryFragment" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -37,5 +40,14 @@
         <argument
             android:name="story"
             app:argType="com.dicoding.picodiploma.storyapp2.data.network.StoryItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsStoryFragment"
+        android:name="com.dicoding.picodiploma.storyapp2.ui.liststory_maps.MapsStoryFragment"
+        android:label="fragment_maps_story"
+        tools:layout="@layout/fragment_maps_story" >
+        <action
+            android:id="@+id/action_mapsStoryFragment_to_detailStoryFragment"
+            app:destination="@id/detailStoryFragment" />
     </fragment>
 </navigation>

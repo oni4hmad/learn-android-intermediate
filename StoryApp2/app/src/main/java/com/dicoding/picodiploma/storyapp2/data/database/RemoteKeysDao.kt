@@ -1,9 +1,10 @@
-package com.dicoding.myunlimitedquotes.database
+package com.dicoding.picodiploma.storyapp2.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dicoding.picodiploma.storyapp2.data.database.RemoteKeys
 
 @Dao
 interface RemoteKeysDao {

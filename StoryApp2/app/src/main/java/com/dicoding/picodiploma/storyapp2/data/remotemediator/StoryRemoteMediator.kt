@@ -1,12 +1,11 @@
 package com.dicoding.picodiploma.storyapp2.data.remotemediator
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.dicoding.myunlimitedquotes.database.RemoteKeys
+import com.dicoding.picodiploma.storyapp2.data.database.RemoteKeys
 import com.dicoding.picodiploma.storyapp2.data.database.StoryDatabase
 import com.dicoding.picodiploma.storyapp2.data.network.ApiService
 import com.dicoding.picodiploma.storyapp2.data.network.StoryItem

@@ -17,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
+@Suppress("UNCHECKED_CAST")
 class AddStoryViewModelFactory(private val token: String): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T = AddStoryViewModel(token) as T
 }

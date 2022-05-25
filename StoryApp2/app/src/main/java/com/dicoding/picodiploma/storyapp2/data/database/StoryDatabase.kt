@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.dicoding.myunlimitedquotes.database.RemoteKeys
-import com.dicoding.myunlimitedquotes.database.RemoteKeysDao
 import com.dicoding.picodiploma.storyapp2.data.network.StoryItem
 
 @Database(

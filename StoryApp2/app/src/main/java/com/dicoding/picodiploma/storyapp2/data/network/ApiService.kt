@@ -36,6 +36,14 @@ interface ApiService {
         @Query("size") size: Int = 10
     ): Call<StoryResponse>
 
+    @GET("stories")
+    fun getMapListStory(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int = 10,
+        @Query("location") location: Int = 1
+    ): Call<StoryResponse>
+
     @Multipart
     @POST("stories")
     fun uploadImage(

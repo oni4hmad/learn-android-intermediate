@@ -45,7 +45,7 @@ internal object WidgetStory {
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let { storyResponse ->
-                            storyResponse.listStory?.let {
+                            storyResponse.listStory.let {
                                 downloadImage(context, appWidgetId, it)
                             }
                         }

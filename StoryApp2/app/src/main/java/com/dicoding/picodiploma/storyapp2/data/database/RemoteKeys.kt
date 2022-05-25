@@ -1,4 +1,4 @@
-package com.dicoding.myunlimitedquotes.database
+package com.dicoding.picodiploma.storyapp2.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

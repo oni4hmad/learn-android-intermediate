@@ -41,6 +41,10 @@ class StoryActivity : AppCompatActivity() {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 true
             }
+            R.id.map_story -> {
+                Navigation.findNavController(this, R.id.nav_host_story).navigate(R.id.action_listStoryFragment_to_mapsStoryFragment)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
