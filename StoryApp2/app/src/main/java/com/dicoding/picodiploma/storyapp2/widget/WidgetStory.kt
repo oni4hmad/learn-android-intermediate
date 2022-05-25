@@ -37,7 +37,7 @@ internal object WidgetStory {
 
         SessionPreference(context).getAuthToken()?.also { token ->
             removeAll()
-            val client = ApiConfig.getApiService().getListStory(token, page, size)
+            val client = ApiConfig.getApiService().getCallListStory(token, page, size)
             client.enqueue(object : Callback<StoryResponse> {
                 override fun onResponse(
                     call: Call<StoryResponse>,

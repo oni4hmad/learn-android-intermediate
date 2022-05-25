@@ -37,4 +37,5 @@
     <string name="add_story">Add Story</string>
     <string name="change_language">Change Language</string>
     <string name="logout">Logout</string>
+    <string name="map_story">Map Story</string>
 </resources>

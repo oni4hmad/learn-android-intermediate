@@ -11,6 +11,11 @@
         android:icon="@drawable/ic_baseline_language_24"
         android:title="@string/change_language"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/map_story"
+        android:icon="@drawable/ic_baseline_language_24"
+        android:title="@string/map_story"
+        app:showAsAction="ifRoom" />
     <group android:menuCategory="container">
         <item android:id="@+id/logout"
             android:title="@string/logout" />

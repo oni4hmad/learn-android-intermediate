@@ -7,26 +7,13 @@
     tools:context=".ui.liststory.ListStoryFragment">
 
 
-    <Button
-        android:id="@+id/btn_load"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/load"
-        app:layout_constraintBottom_toBottomOf="@+id/edt_story_qty"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/edt_story_qty"
-        app:layout_constraintTop_toTopOf="@+id/edt_story_qty" />
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_stories"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edt_story_qty">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_stories"
@@ -69,7 +56,6 @@
         app:layout_constraintEnd_toEndOf="@+id/srl_stories"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/srl_stories"
-        app:layout_constraintTop_toBottomOf="@+id/edt_story_qty"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
@@ -84,32 +70,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/srl_stories"
         app:layout_constraintTop_toBottomOf="@+id/tv_error_msg" />
-
-    <EditText
-        android:id="@+id/edt_story_qty"
-        android:layout_width="105dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:gravity="center"
-        android:inputType="number"
-        android:text="@string/value_10"
-        app:layout_constraintEnd_toStartOf="@+id/btn_load"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_plc_storyperpage"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor"
-        android:importantForAutofill="no" />
-
-    <TextView
-        android:id="@+id/tv_plc_storyperpage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/story_per_page"
-        app:layout_constraintBottom_toBottomOf="@+id/edt_story_qty"
-        app:layout_constraintEnd_toStartOf="@+id/edt_story_qty"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edt_story_qty" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

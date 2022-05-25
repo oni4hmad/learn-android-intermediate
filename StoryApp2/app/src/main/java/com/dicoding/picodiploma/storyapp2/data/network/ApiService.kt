@@ -23,14 +23,21 @@ interface ApiService {
     ): Call<LoginResponse>
 
     @GET("stories")
-    fun getListStory(
+    suspend fun getListStory(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int = 10
+    ): StoryResponse
+
+    @GET("stories")
+    fun getCallListStory(
         @Header("Authorization") token: String,
         @Query("page") page: Int,
         @Query("size") size: Int = 10
     ): Call<StoryResponse>
 
     @Multipart
-    @POST("/v1/stories")
+    @POST("stories")
     fun uploadImage(
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,

@@ -1,6 +1,8 @@
 package com.dicoding.picodiploma.storyapp2.data.network
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -46,13 +48,15 @@ data class StoryResponse(
 	val message: String,
 
 	@field:SerializedName("listStory")
-	val listStory: List<StoryItem>? = null,
+	val listStory: List<StoryItem>,
 
 )
 
 @Parcelize
+@Entity("story")
 data class StoryItem(
 
+	@PrimaryKey
 	@field:SerializedName("id")
 	val id: String,
 

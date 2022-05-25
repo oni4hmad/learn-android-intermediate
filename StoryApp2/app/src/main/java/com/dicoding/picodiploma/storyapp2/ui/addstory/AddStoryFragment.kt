@@ -167,7 +167,7 @@ class AddStoryFragment : Fragment() {
             createCustomTempFile((requireActivity() as AddStoryActivity).application).also {
                 val photoURI: Uri = FileProvider.getUriForFile(
                     v.context,
-                    "com.dicoding.picodiploma.storyapp1",
+                    "com.dicoding.picodiploma.storyapp2",
                     it
                 )
                 currentPhotoPath = it.absolutePath

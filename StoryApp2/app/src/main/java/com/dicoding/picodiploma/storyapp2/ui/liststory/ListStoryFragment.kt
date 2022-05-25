@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.storyapp2.R
 import com.dicoding.picodiploma.storyapp2.data.network.StoryItem
@@ -18,6 +20,11 @@ import com.dicoding.picodiploma.storyapp2.data.preferences.SessionPreference
 import com.dicoding.picodiploma.storyapp2.databinding.FragmentListStoryBinding
 import com.dicoding.picodiploma.storyapp2.databinding.ItemRowStoryBinding
 import com.dicoding.picodiploma.storyapp2.ui.liststory.adapter.ListStoryAdapter
+import com.dicoding.picodiploma.storyapp2.ui.liststory.adapter.LoadingStateAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ListStoryFragment : Fragment() {
 
@@ -25,6 +32,7 @@ class ListStoryFragment : Fragment() {
     private lateinit var viewModel: ListStoryViewModel
     private lateinit var session: SessionPreference
     private var state: Parcelable? = null
+    private var newStoryFlag = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,58 +64,61 @@ class ListStoryFragment : Fragment() {
         session = SessionPreference(view.context)
         val token = session.getAuthToken() ?: ""
 
-        viewModel = ViewModelProvider(this, ListStoryViewModelFactory(token))[ListStoryViewModel::class.java]
-        viewModel.listStory.observe(viewLifecycleOwner) { stories ->
-            showRecyclerList(stories)
-        }
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            when {
-                error.isError && error.type == ListStoryViewModel.ErrorType.NO_DATA ->
-                    showError(true, getString(R.string.no_data_to_display))
-                error.isError ->
-                    error.errorMsg?.let { showError(true, it) }
-                else -> showError(false)
-            }
-        }
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            showLoading(it)
-        }
+        viewModel = ViewModelProvider(this, ListStoryViewModelFactory(token, view.context))[ListStoryViewModel::class.java]
 
-        binding.btnLoad.setOnClickListener {
-            loadStory(token)
-        }
-
-        binding.btnRetry.setOnClickListener {
-            loadStory(token)
-        }
-
-        binding.srlStories.setOnRefreshListener {
-            loadStory(token)
-        }
+        showRecyclerList()
 
         StoryActivityArgs.fromBundle(arguments as Bundle).toastText?.let {
             showToast(it)
-            loadStory(token)
+            binding.srlStories.post {
+                newStoryFlag = true
+                binding.srlStories.isRefreshing = true
+            }
             arguments?.clear()
         }
 
     }
 
-    private fun loadStory(token: String) {
-        if (binding.edtStoryQty.text.toString().isNotEmpty()) {
-            val qty = binding.edtStoryQty.text.toString().toInt()
-            viewModel.getStory(token, size = qty)
-        } else binding.edtStoryQty.error = getString(R.string.cant_be_empty)
-    }
-
-    private fun showRecyclerList(stories: List<StoryItem>) {
+    private fun showRecyclerList() {
 
         binding.rvStories.layoutManager = LinearLayoutManager(view?.context)
 
-        val listStoryAdapter = ListStoryAdapter(stories)
-        binding.rvStories.adapter = listStoryAdapter
-
-        listStoryAdapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
+        val adapter = ListStoryAdapter()
+        adapter.addLoadStateListener {
+            when (it.mediator?.refresh) {
+                is LoadState.Loading -> {
+                    showLoading(true)
+                    showError(false)
+                }
+                is LoadState.Error -> {
+                    showLoading(false)
+                    if (adapter.itemCount < 1) {
+                        (it.mediator?.refresh as LoadState.Error).error.message?.also { errorMsg ->
+                            showError(true, errorMsg)
+                        }
+                        binding.btnRetry.setOnClickListener { adapter.refresh() }
+                    } else showError(false)
+                }
+                is LoadState.NotLoading -> {
+                    showLoading(false)
+                    if (adapter.itemCount < 1) {
+                        showError(true, getString(R.string.no_data_to_display))
+                        binding.btnRetry.setOnClickListener { adapter.refresh() }
+                    } else showError(false)
+                }
+                else -> {}
+            }
+            binding.srlStories.setOnRefreshListener { adapter.refresh() }
+        }
+        binding.rvStories.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        viewModel.stories.observe(viewLifecycleOwner) {
+            adapter.submitData(lifecycle, it)
+        }
+        adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
             override fun onItemClicked(story: StoryItem, binding: ItemRowStoryBinding) {
                 binding.pbItemStory.visibility = View.VISIBLE
                 showStory(story, binding)
@@ -124,16 +135,19 @@ class ListStoryFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
-            binding.tvPlcStoryperpage.isEnabled = false
-            binding.edtStoryQty.isEnabled = false
-            binding.btnLoad.isEnabled = false
             binding.srlStories.isRefreshing = true
             binding.rvStories.visibility = View.GONE
         } else {
-            binding.tvPlcStoryperpage.isEnabled = true
-            binding.edtStoryQty.isEnabled = true
-            binding.btnLoad.isEnabled = true
             binding.srlStories.isRefreshing = false
+            if (newStoryFlag) {
+                newStoryFlag = false
+                lifecycleScope.launch(Dispatchers.Default) {
+                    delay(500)
+                    withContext(Dispatchers.Main) {
+                        binding.rvStories.scrollToPosition(0)
+                    }
+                }
+            }
         }
     }
 
