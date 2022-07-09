@@ -1,5 +1,6 @@
 package com.dicoding.picodiploma.mywidgets
 
+import android.appwidget.AppWidgetManager
 import java.util.*
 
 internal object NumberGenerator {
