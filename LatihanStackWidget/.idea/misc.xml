@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanStackWidget/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1285" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanStackWidget/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanStackWidget/app/src/main/res/layout/image_banner_widget.xml" value="0.25" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanStackWidget/app/src/main/res/layout/widget_item.xml" value="0.25" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanStackWidget/app/src/main/res/xml/widget_item.xml" value="0.25" />
       </map>
     </option>
   </component>
