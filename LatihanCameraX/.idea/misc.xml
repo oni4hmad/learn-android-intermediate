@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanCameraX/app/src/main/res/drawable/ic_switch_camera.xml" value="0.1265" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanCameraX/app/src/main/res/layout/activity_camera.xml" value="0.2644927536231884" />
-        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanCameraX/app/src/main/res/layout/activity_main.xml" value="1.0" />
+        <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanCameraX/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanCameraXStarter/app/src/main/res/layout/activity_camera.xml" value="0.278125" />
         <entry key="..\:/Users/Oni Ahmad/AndroidStudioProjects/android-intermediate/LatihanCameraXStarter/app/src/main/res/layout/activity_main.xml" value="0.278125" />
       </map>
