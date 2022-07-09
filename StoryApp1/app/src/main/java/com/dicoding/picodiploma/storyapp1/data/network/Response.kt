@@ -48,7 +48,7 @@ data class StoryResponse(
 	@field:SerializedName("listStory")
 	val listStory: List<StoryItem>? = null,
 
-	)
+)
 
 @Parcelize
 data class StoryItem(
