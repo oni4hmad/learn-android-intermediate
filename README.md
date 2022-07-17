@@ -1,4 +1,4 @@
-# Dicoding Android Intermediate Course's Project
+# Dicoding Android Intermediate Course's Project (Story App Submission)
 
 This repository was created to documentating my learning progress for dicoding android intermediate course. There are 2 submissions related to this course which will make a single Story App
 
